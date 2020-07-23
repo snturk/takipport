@@ -335,6 +335,10 @@ export default {
     height: 70vh;
     padding: 1vh;
   }
+
+  #signUpFormContainer{
+    width: 90%;
+  }
 }
 
 </style>
