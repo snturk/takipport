@@ -9,7 +9,7 @@
           <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
         </svg>
-        <div id="assignedUserName">Muratcan Şentürk</div>
+        <div id="assignedUserName"></div>
       </div>
       <div id="companyButtonsContainer">
         <div class="companyButton" id="resetButton">
@@ -75,7 +75,7 @@
       </div>
       <div id="additionContainer" v-if="!disabled" :class="{'disabledText': disabled}">
         <div v-if="additions.length != 0" class="addition" v-for="i in additions.length">
-          <div>
+          <div id="additionLeftContainer">
             <div id="additionName">{{addition[additions[i-1]].name}}:</div>
             <input type="checkbox" id="addCheckbox" @click="changeChecked(addition[additions[i-1]].name, addition[additions[i-1]].value, additions[i-1])"
             v-model="addition[additions[i-1]].value"
@@ -441,7 +441,6 @@ export default {
   flex-direction: row;
   width: 98%;
   margin: 0 auto;
-  align-content: center;
   justify-content: space-between;
 }
 
@@ -603,9 +602,11 @@ svg:active{
   margin-top: 2%;
 }
 
-.addition div{
+.addition #additionLeftContainer{
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  width: calc(100% - 30px);
   word-wrap: break-word;
 }
 
@@ -615,7 +616,7 @@ svg:active{
   width: 54%;
 }
 
-.addition div input{
+.addition #additionLeftContainer input{
   margin-right: 1%;
   height: 20px;
   width: 20px;
