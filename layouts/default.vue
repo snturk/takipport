@@ -1,7 +1,18 @@
 <template>
   <div id="mainContainer">
     <div id="navBarContainer">
-      <div id="navBarTitle">TAKİPPORT</div>
+      <div id="navBarTitle">TAKİPPORT
+        <span>
+          beta
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-circle" width="16" height="16" viewBox="0 0 24 24" stroke-width="2.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <circle cx="12" cy="12" r="9" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </span>
+      
+      </div>
       <div class="navBar desktopNavBar loggedInNavBar" v-if="isLogged">
         <nuxt-link to="/home" class="navBarLink">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home-2" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#505b81" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -224,14 +235,24 @@ hr{
 
 #navBarTitle{
   margin-left: 5%;
-  font-size: 34px;
+  font-size: 32px;
+}
+
+#navBarTitle span{
+  font-size: 17px;
+  margin-left: 4px;
+}
+#navBarTitle span svg{
+  width: 16px;
+  height: 16px;
+  transform: scale(1.22);
 }
 
 .navBar{
  display: flex;
  flex-direction: row;
  justify-content: space-between;
- width: 30%;
+ width: 30vw;
  margin-right: 5%;
  font-size: 20px;
 }
@@ -244,7 +265,7 @@ hr{
 }
 
 .loggedInNavBar{
-  width: 25%;
+  width: 25vw;
   justify-content: space-between;
 }
 
@@ -258,8 +279,8 @@ hr{
 }
 
 .container{
-  width: 96%;
-  height: 83%;
+  width: 96vw;
+  height: 83vh;
   margin-top: 2%;
   display: flex;
   align-items: center;
