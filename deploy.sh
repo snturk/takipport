@@ -10,6 +10,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f git@github.com:snturk/attd.git master:gh-pages
+git push -f git@github.com:snturk/takipport.git master:gh-pages
 
 cd -
