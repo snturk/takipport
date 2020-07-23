@@ -17,8 +17,9 @@ if(!firebase.apps.length){
 
 export default ({redirect}) => {
   firebase.auth().onAuthStateChanged(user=>{
-    if(user.emailVerified){
+    if(firebase.auth().currentUser.emailVerified){
       redirect('/home');
+      console.log(user.displayName);
     }else{
       redirect('/');
       firebase.auth().signOut();
