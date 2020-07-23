@@ -35,6 +35,8 @@
         </div>
         <div class="form">
           <h1>Kayıt Ol</h1>
+          <input type="text" placeholder="isim" v-model="firstName">
+          <input type="text" placeholder="soyisim" v-model="lastName">
           <input type="text" placeholder="e-posta" v-model="email">
           <input type="password" placeholder="şifre" v-model="password">
           <input type="password" placeholder="şifre tekrar" v-model="passwordAgain">
@@ -66,6 +68,8 @@ import firebase from 'firebase'
 export default {
   data() {
     return {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       passwordAgain: '',
@@ -79,7 +83,7 @@ export default {
   methods: {
     async signIn(){
       await firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(user => {
-        if(!user.emailVerified){
+        if(firebase.auth().currentUser.emailVerified){
           this.$router.push('/home');
         }else{
           alert('Giriş yapmadan önce e-postanızı onaylayın.');
@@ -98,7 +102,7 @@ export default {
             break;
         
           default:
-            alert("Bir hata oluştu. Lütfen e-posta ve şifrenizi kontrol edip tekrar deneyin")
+            alert("Bir hata oluştu. Lütfen e-posta ve şifrenizi kontrol edip tekrar deneyin", err.code)
             break;
         }
         
@@ -106,8 +110,11 @@ export default {
     },
     async signUp(){
       if(this.password == this.passwordAgain){
-        await firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(async user => {
-          await firebase.auth().currentUser.sendEmailVerification();
+        await firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(user => {
+          firebase.auth().currentUser.sendEmailVerification();
+          firebase.auth().currentUser.updateProfile({
+          displayName: this.firstName + ' ' + this.lastName
+        });
           alert('E-posta adresinize bir doğrulama bağlantısı gönderildi. Giriş yapmadan önce bağlantıya tıklayıp e-postanızı onaylayın.');
           this.signUpPage = false;
           }).catch(err => {
@@ -123,7 +130,7 @@ export default {
               break;
           
             default:
-              alert("Bir hata oluştu. Lütfen e-posta ve şifrenizi kontrol edip tekrar deneyin")
+              alert("Bir hata oluştu. Lütfen e-posta ve şifrenizi kontrol edip tekrar deneyin" + err.message + err.code)
               break;
           }
         });
@@ -155,7 +162,7 @@ export default {
 
 #aboutContainer{
   width: 70%;
-  min-height: 90%;
+  height: 90vh;
   margin: 0 auto;
   margin-top: 5%;
   text-align: center;
@@ -195,7 +202,7 @@ export default {
   height: 40%;
   margin-left: 5%;
   color: black;
-  font-size: 50px;
+  font-size: 36px;
   font-weight: 800;
 }
 #indexLeftDescription{
@@ -294,7 +301,7 @@ export default {
 }
 
 #signUpFormContainer .form{
-  width: 20%;
+  width: 30vw;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -318,6 +325,9 @@ export default {
 }
 
 @media only screen and (max-width: 900px) {
+  .container{
+    flex-direction: column;
+  }
   #indexContainer{
     flex-direction: column;
   }
@@ -336,8 +346,8 @@ export default {
     padding: 1vh;
   }
 
-  .form{
-    width: 90%;
+  #signUpFormContainer .form{
+    width: 70vw;
   }
 }
 
