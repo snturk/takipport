@@ -336,7 +336,7 @@ export default {
     padding: 1vh;
   }
 
-  #signUpFormContainer{
+  .form{
     width: 90%;
   }
 }
