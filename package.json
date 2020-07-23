@@ -1,0 +1,20 @@
+{
+  "name": "smmm-takip",
+  "version": "1.0.0",
+  "description": "SMMM Takip",
+  "author": "Muratcan Şentürk",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "firebase": "^7.16.1",
+    "nuxt": "^2.0.0",
+    "nuxt-moment": "^1.0.5",
+    "vue-typer": "^1.2.0"
+  },
+  "devDependencies": {}
+}
