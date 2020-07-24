@@ -140,7 +140,7 @@ export default {
 
             if (resData.addition) {
               this.datas.push({
-                id: id,
+                  id: id,
                   name: resData.name,
                   props: resData.props,
                   addition: resData.addition,

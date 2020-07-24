@@ -12,7 +12,7 @@
             <line x1="12" y1="12" x2="12" y2="12.01" />
             <path d="M3 13a20 20 0 0 0 18 0" />
           </svg>
-          İş Özeti</div>
+          İş Özeti</div> <div @click="tekrar()">Göz</div>
         <div class="summaryElement">Toplam firma: <span>{{totalCompanies}}</span></div>
         <div class="summaryElement">Toplam iş: <span>{{totalJobs}}</span></div>
         <div class="summaryElement">Tamamlanan iş: <span>{{totalJobs-totalTodo}}</span></div>
@@ -66,10 +66,11 @@ export default {
       var currentVal;
       await firebase.database().ref('/users/' + refEmail).on("value", (snapshot) => {
         if(snapshot.exists()){
-          currentVal = snapshot.val();
+          currentVal = snapshot.val().companies;
         }
-      });
-      await firebase.database().ref('/users/' + newEmail.replace('.', '')).push(currentVal);
+      })
+      await firebase.database().ref('/users/' + refEmail).remove();
+      await firebase.database().ref('/users/' + newEmail.replace('.', '') + '/companies').update(currentVal);
       await auth.currentUser.updateEmail(newEmail).then(function(){
         auth.currentUser.sendEmailVerification();
         alert('E-posta adresinize bir doğrulama bağlantısı gönderildi. Giriş yapmadan önce bağlantıya tıklayıp e-postanızı onaylayın.');
