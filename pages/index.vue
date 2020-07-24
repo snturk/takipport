@@ -147,6 +147,8 @@ export default {
 
 #indexContainer{
   width: 100%;
+  min-height: 100%;
+  height: 100vh;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
@@ -174,7 +176,8 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 30%;
+  width: 30vw;
+  height: auto;
   background-color: hsl(245, 64%, 33%);
   border: 1.2px black solid;
   border-radius: 7px;
@@ -284,7 +287,7 @@ export default {
 
 #aboutContainer{
   width: 80vw;
-  height: 90vh;
+  height: 90%;
   margin: 0 auto;
   margin-top: 5%;
   margin-bottom: 5%;
