@@ -191,9 +191,9 @@ a{
   position: absolute;
   top: 0;
   left: 0;
-  min-height: 100%;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  height: fit-content;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
