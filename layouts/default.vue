@@ -4,11 +4,11 @@
       <div id="navBarTitle">TAKİPPORT
         <span>
           beta
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-circle" width="16" height="16" viewBox="0 0 24 24" stroke-width="2.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flask" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"/>
-            <circle cx="12" cy="12" r="9" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
+            <line x1="9" y1="3" x2="15" y2="3" />
+            <line x1="10" y1="9" x2="14" y2="9" />
+            <path d="M10 3v6l-4 11a.7 .7 0 0 0 .5 1h11a.7 .7 0 0 0 .5 -1l-4 -11v-6" />
           </svg>
         </span>
       
@@ -245,7 +245,7 @@ hr{
 #navBarTitle span svg{
   width: 16px;
   height: 16px;
-  transform: scale(1.22);
+  transform: scale(1);
 }
 
 .navBar{
