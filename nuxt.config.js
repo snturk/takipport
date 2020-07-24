@@ -29,7 +29,8 @@ export default {
   */
   plugins: [
     {src: '~/plugins/firebase.js'},
-    {src: '~/plugins/vuePlugin.js', ssr: false}
+    {src: '~/plugins/vuePlugin.js', ssr: false},
+    { src: '~plugins/ga.js', mode: 'client' }
   ],
   /*
   ** Nuxt.js dev-modules
