@@ -35,12 +35,13 @@ export default {
   },
   methods: {
     asyncData({req, redirect}) {
-    if(process.server){
+      if(process.server){
 
-    } else {
-      let user = firebase.auth().currentUser
-      if(!user){
-        redirect('/');
+      } else {
+        let user = firebase.auth().currentUser
+        if(!user){
+          redirect('/');
+        }
       }
     }
   },
