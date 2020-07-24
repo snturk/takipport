@@ -146,7 +146,6 @@ export default {
 }
 
 #indexContainer{
-  min-height: 100%;
   height: 90vh;
   width: 100%;
   margin: 0 auto;
