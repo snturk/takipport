@@ -33,6 +33,17 @@ export default {
       totalTodo: this.$store.state.totalTodo
     }
   },
+  methods: {
+    asyncData({req, redirect}) {
+    if(process.server){
+
+    } else {
+      let user = firebase.auth().currentUser
+      if(!user){
+        redirect('/');
+      }
+    }
+  },
 }
 </script>
 
