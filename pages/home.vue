@@ -16,14 +16,14 @@
         <h1>Firma Ekle</h1>
         <div>
         <input type="text" placeholder="eklenecek firma adı" autocomplete="off" id="companyNameInput" @keyup.enter="pushCompany(company.name)" v-model="company.name">
-        <div id="addCompanyButton" @click="pushCompany(company.name)">
+        <!--<div id="addCompanyButton" @click="pushCompany(company.name)">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="40" height="40" viewBox="0 0 24 24" stroke-width="1" stroke="#0D0099" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"/>
             <rect x="4" y="4" width="16" height="16" rx="2" />
             <line x1="9" y1="12" x2="15" y2="12" />
             <line x1="12" y1="9" x2="12" y2="15" />
           </svg>
-        </div>
+        </div>-->
         </div>
       </div>
       <div id="companySearchContainer">
@@ -216,7 +216,7 @@ export default {
       this.$router.replace('/');
     }
     this.getCompanies();
-    console.log(Math.random().toString(36).substr(2, 9));
+    //console.log(Math.random().toString(36).substr(2, 9));
   },
   asyncData({req, redirect}) {
     if(process.server){
