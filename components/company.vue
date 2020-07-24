@@ -1,7 +1,7 @@
 <template>
   <div id="company">
     <div id="companyHeader">
-      <div id="assignedUser">
+      <div id="assignedUser" style="opacity: 0">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z"/>
           <circle cx="9" cy="7" r="4" />
