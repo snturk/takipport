@@ -143,12 +143,13 @@ export default {
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+  height: fit-content;
 }
 
 #indexContainer{
   width: 100%;
-  min-height: 100%;
-  height: 100vh;
+  min-height: 120vh;
+  height: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
@@ -176,22 +177,22 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 30vw;
-  height: auto;
+  width: 30%;
   background-color: hsl(245, 64%, 33%);
   border: 1.2px black solid;
   border-radius: 7px;
   margin-right: 3%;
+  padding: 20px;
   box-shadow: 0 19px 30px rgba(0,0,0,0.30), 0 15px 19px rgba(0, 0, 0, 0.32);
 }
 #authContainer h5{color: #f4f4f4;}
 
 #authContainer .form{
   display: flex;
+  padding: 6%;
   flex-direction: column;
   text-align: center;
   font-size: 38px;
-  padding: 7%;
   width: 100%;
   margin: 0 auto;
   color: #bcbcc3;
@@ -286,11 +287,11 @@ export default {
 }
 
 #aboutContainer{
-  width: 80vw;
+  width: 80%;
   height: 90%;
   margin: 0 auto;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  margin-top: 10%;
+  margin-bottom: 10%;
   text-align: center;
   scroll-behavior: smooth;
 }
@@ -325,29 +326,43 @@ export default {
   margin-top: 4%;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 600px) {
   .container{
     flex-direction: column;
   }
   #indexContainer{
     flex-direction: column;
+    justify-content: space-around;
+    height: 120vw;
   }
   #indexLeft{
     width: 80%;
-    font-size: 6vh;
+    font-size: 36px;
     margin-top: 10%;
-    margin-bottom: 10%;
   }
   #indexLeftDescription{
-    font-size: 3vh;
+    font-size: 18px;
   }
   #authContainer{
     width: 80%;
-    padding: 1vh;
+    padding: 10px;
   }
 
   #signUpFormContainer .form{
     width: 70vw;
+  }
+
+  #aboutContainer{
+    width: 95%;
+  }
+  #aboutTitle {
+    font-size: 34px;
+  }
+  .aboutSubtitle{
+    font-size: 24px;
+  }
+  #aboutContainer p{
+    font-size: 17px;
   }
 }
 
