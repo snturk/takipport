@@ -46,20 +46,16 @@
         </div>
       </div>
     </div>
-    <hr>
+
     <div id="aboutContainer">
       <div id="aboutTitle">Hakkında</div>
-      <hr>
       <div class="aboutSubtitle">Hizmetler</div>
-      <p class="disabledText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam, consectetur! 
-      Minima voluptate ex facilis, possimus, obcaecati maiores nesciunt quod dolorum quos harum debitis! 
-      Repellat illum quos esse. Reiciendis, sequi aut.</p>
-      <hr>
-      <div class="aboutSubtitle">Kullanım</div>
-     <p class="disabledText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum tempora cum fugit distinctio dolore! 
-      Maxime, dolores expedita quos eum hic ad dicta a, dolorum ea debitis magni, iusto illum perferendis?</p>
+      <p>
+        TAKİPPORT, firmalarınızın beyanname, ekstre, bordro gibi işlerinin güncel durumunu girip takip etmenizi kolaylaştırır.
+      </p>
+    
     </div>
-    <hr>
+    
   </div>
 </template>
 
@@ -158,42 +154,6 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-}
-
-#aboutContainer{
-  width: 70%;
-  height: 90vh;
-  margin: 0 auto;
-  margin-top: 5%;
-  text-align: center;
-  margin-bottom: 5%;
-  scroll-behavior: smooth;
-}
-#aboutTitle{
-  font-size: 36px;
-}
-#aboutContainer hr{
-  width: 70%;
-  background-color: #474f6c;
-  height: 1.3px;
-  border: none;
-  margin-top: 2%;
-  margin-bottom: 2%;
-}
-.aboutSubtitle{
-  font-size: 32px;
-  text-align: left;
-  width: 70%;
-  margin: 0 auto;
-  color:  hsl(245, 44%, 20%);
-}
-#aboutContainer p{
-  font-size: 24px;
-  text-align: left;
-  color: hsl(245, 28%, 50%);
-  width: 70%;
-  margin: 0 auto;
-  margin-top: 4%;
 }
 
 #indexLeft{
@@ -324,6 +284,46 @@ export default {
   margin: 0 auto;
 }
 
+#aboutContainer{
+  width: 80vw;
+  height: 90vh;
+  margin: 0 auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  text-align: center;
+  scroll-behavior: smooth;
+}
+#aboutTitle{
+  font-size: 42px;
+}
+
+.aboutSubtitle{
+  font-size: 30px;
+  text-align: left;
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 5%;
+  color:  #474f6c;
+}
+
+#aboutContainer h4{
+  font-size: 24px;
+  width: 70%;
+  margin: 0 auto;
+  text-align: left;
+  margin-top: 2%;
+  color: hsl(245, 5%, 23%);
+}
+
+#aboutContainer p{
+  font-size: 22px;
+  text-align: left;
+  color: hsl(245, 5%, 43%);
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 4%;
+}
+
 @media only screen and (max-width: 900px) {
   .container{
     flex-direction: column;
@@ -342,7 +342,6 @@ export default {
   }
   #authContainer{
     width: 80%;
-    height: 70vh;
     padding: 1vh;
   }
 
