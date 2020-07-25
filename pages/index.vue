@@ -107,6 +107,20 @@
       </div>
 
     </div>
+
+    <div class="indexBottomElContainer">
+      <div class="indexBottomTitle">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F4f4f4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z"/>
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <polyline points="3 7 12 13 21 7" />
+        </svg>
+        İletişim
+      </div>
+      <div id="contactContainer">
+        <a id="contactLink" target="_blank" href="mailto:takipportdestek@gmail.com">Destek için buraya tıklayarak e-posta atın.</a>
+      </div>
+    </div>
     
   </div>
 </template>
@@ -341,15 +355,14 @@ export default {
 }
 
 .indexBottomElContainer{
-  width: 85%;
-  max-height: 450px;
-  height: 60%;
+  width: 87%;
+  height: 450px;
   margin: 0 auto;
   margin-top: 10%;
   margin-bottom: 10%;
   background-color: #474f6c;
   border-radius: 7px;
-  padding: 4%;
+  padding: 40px;
   box-shadow: 0 19px 30px rgba(0,0,0,0.30), 0 15px 19px rgba(0, 0, 0, 0.32);
   text-align: center;
   scroll-behavior: smooth;
@@ -363,6 +376,7 @@ export default {
   margin-bottom: 6%;
   color: #f4f4f4;
 }
+.indexBottomTitle svg{margin-right: 7px;}
 
 .aboutSubtitle{
   font-size: 30px;
@@ -384,7 +398,7 @@ export default {
 }
 
 #subOptionContainer{
-  height: 35vh;
+  height: 70%;
   width: 95%;
   display: flex;
   flex-direction: row;
@@ -429,6 +443,17 @@ export default {
 #gold{background-color: gold;}
 
 
+#contactContainer a{
+  color: #f4f4f4;
+  text-decoration: underline;
+  transition-duration: 180ms;
+}
+
+#contactLink:hover{
+  transform: scale(1.2);
+  color: #8a82ff;
+}
+
 @media only screen and (max-width: 600px) {
   .container{
     flex-direction: column;
@@ -456,6 +481,9 @@ export default {
   }
 
   #aboutContainer{
+    width: 95%;
+  }
+  .indexBottomElContainer{
     width: 95%;
   }
   .indexBottomTitle {
