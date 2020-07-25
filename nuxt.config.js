@@ -12,6 +12,7 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
+      { href: 'icon.png', rel: 'icon'},
       { href: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;800&family=Roboto:wght@500&display=swap', rel: 'stylesheet'}   
     ]
   },
