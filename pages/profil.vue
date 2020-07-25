@@ -69,7 +69,6 @@ export default {
           currentVal = snapshot.val().companies;
         }
       })
-      await firebase.database().ref('/users/' + refEmail).remove();
       await firebase.database().ref('/users/' + newEmail.replace('.', '') + '/companies').update(currentVal);
       await auth.currentUser.updateEmail(newEmail).then(function(){
         auth.currentUser.sendEmailVerification();
