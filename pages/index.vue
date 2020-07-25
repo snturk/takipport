@@ -12,7 +12,7 @@
         :erase-on-complete='false'
         caret-animation='expand'
         ></vue-typer>
-        <div id="indexLeftDescription">TAKİPPORT, mali müşavirler ve muhasebeciler için bir iş süreci takip çözümüdür.</div>
+        <div id="indexLeftDescription">TAKİPPORT, mali müşavirler ve muhasebeciler için bir <span>yapılacaklar listesidir.</span></div>
       </div>
 
       <div id="authContainer">
@@ -47,13 +47,65 @@
       </div>
     </div>
 
-    <div id="aboutContainer">
-      <div id="aboutTitle">Hakkında</div>
+    <div class="indexBottomElContainer" id="aboutContainer">
+      <div class="indexBottomTitle">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-square" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="#F4f4f4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z"/>
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+          <rect x="4" y="4" width="16" height="16" rx="2" />
+          <polyline points="11 12 12 12 12 16 13 16" />
+        </svg>
+        Hakkında
+      </div>
       <div class="aboutSubtitle">Hizmetler</div>
       <p>
         TAKİPPORT, firmalarınızın beyanname, ekstre, bordro gibi işlerinin güncel durumunu girip takip etmenizi kolaylaştırır.
+        Bir iş süreci takip çözümüdür.
       </p>
     
+    </div>
+
+    <div class="indexBottomElContainer" id="pricesContainer">
+      <div class="indexBottomTitle">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cash" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="#F4f4f4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z"/>
+          <rect x="7" y="9" width="14" height="10" rx="2" />
+          <circle cx="14" cy="14" r="2" />
+          <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
+        </svg>
+        Fiyatlar
+      </div>
+      <div id="subOptionContainer">
+
+        <div class="subscriptionOption" id="bronze">
+          <div id="subOptionName">Bronz</div>
+          <div id="subOptionFeatureContainer">
+            <div id="subObtionFeature">???</div>
+            <div id="subObtionFeature">???</div>
+            <div id="subObtionPrice">???₺</div>
+          </div>
+        </div>
+
+        <div class="subscriptionOption" id="silver">
+          <div id="subOptionName">Gümüş</div>
+          <div id="subOptionFeatureContainer">
+            <div id="subObtionFeature">???</div>
+            <div id="subObtionFeature">???</div>
+            <div id="subObtionPrice">???₺</div>
+          </div>
+        </div>
+
+        <div class="subscriptionOption" id="gold">
+          <div id="subOptionName">Altın</div>
+          <div id="subOptionFeatureContainer">
+            <div id="subObtionFeature">???</div>
+            <div id="subObtionFeature">???</div>
+            <div id="subObtionPrice">???₺</div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
     
   </div>
@@ -108,6 +160,7 @@ export default {
       if(this.password == this.passwordAgain){
         await firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(user => {
           firebase.auth().currentUser.sendEmailVerification();
+          firebase.database().ref('/users/' + this.email.replace('.', '')).remove();
           firebase.auth().currentUser.updateProfile({
           displayName: this.firstName + ' ' + this.lastName
         });
@@ -140,10 +193,7 @@ export default {
 
 <style>
 .container{
-  align-items: center;
-  justify-content: space-between;
   flex-direction: column;
-  height: fit-content;
 }
 
 #indexContainer{
@@ -168,8 +218,12 @@ export default {
 }
 #indexLeftDescription{
   font-size: 22px;
+  font-weight: 400;
   margin-top: 10%;
   color: hsl(245, 30%, 25%);
+}
+#indexLeftDescription span{
+  font-weight: 800;
 }
 
 #authContainer{
@@ -286,45 +340,94 @@ export default {
   margin: 0 auto;
 }
 
-#aboutContainer{
-  width: 80%;
-  height: 90%;
+.indexBottomElContainer{
+  width: 85%;
+  max-height: 450px;
+  height: 60%;
   margin: 0 auto;
   margin-top: 10%;
   margin-bottom: 10%;
+  background-color: #474f6c;
+  border-radius: 7px;
+  padding: 4%;
+  box-shadow: 0 19px 30px rgba(0,0,0,0.30), 0 15px 19px rgba(0, 0, 0, 0.32);
   text-align: center;
   scroll-behavior: smooth;
 }
-#aboutTitle{
-  font-size: 42px;
+.indexBottomTitle{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 6vh;
+  margin-bottom: 6%;
+  color: #f4f4f4;
 }
 
 .aboutSubtitle{
   font-size: 30px;
   text-align: left;
+  font-weight: 800;
   width: 70%;
   margin: 0 auto;
   margin-top: 5%;
-  color:  #474f6c;
-}
-
-#aboutContainer h4{
-  font-size: 24px;
-  width: 70%;
-  margin: 0 auto;
-  text-align: left;
-  margin-top: 2%;
-  color: hsl(245, 5%, 23%);
+  color: hsl(245, 5%, 83%);
 }
 
 #aboutContainer p{
   font-size: 22px;
   text-align: left;
-  color: hsl(245, 5%, 43%);
+  color:  #c0c0c4;
   width: 70%;
   margin: 0 auto;
   margin-top: 4%;
 }
+
+#subOptionContainer{
+  height: 35vh;
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.subscriptionOption{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 25%;
+  padding: 2%;
+  font-family: 'Playfair Display', serif;
+  font-weight: 100;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 9px 15px rgba(0,0,0,0.30), 0 7px 9px rgba(0, 0, 0, 0.32);
+}
+
+#subOptionName{
+  font-size: 3vh;
+  margin-bottom: 2%;
+}
+
+#subOptionFeatureContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 80%;
+}
+
+#subObtionPrice{
+  font-family: 'Roboto', serif;
+  font-weight: 500;
+}
+
+#bronze{background-color: burlywood;}
+#silver{background-color: silver;}
+#gold{background-color: gold;}
+
 
 @media only screen and (max-width: 600px) {
   .container{
@@ -355,7 +458,7 @@ export default {
   #aboutContainer{
     width: 95%;
   }
-  #aboutTitle {
+  .indexBottomTitle {
     font-size: 34px;
   }
   .aboutSubtitle{
