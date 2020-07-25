@@ -46,7 +46,7 @@
             <polyline points="11 12 12 12 12 16 13 16" />
           </svg>
         </a>
-        <nuxt-link to="/" class="navBarLink">
+        <nuxt-link to="#pricesContainer" class="navBarLink">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"/>
             <rect x="7" y="9" width="14" height="10" rx="2" />
@@ -191,8 +191,7 @@ a{
   position: absolute;
   top: 0;
   left: 0;
-  min-height: 100vh;
-  height: fit-content;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -204,7 +203,7 @@ a{
   top: 0;
   left: 0;
   width: 100%;
-  height: 10vh;
+  height: 10%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -279,17 +278,14 @@ hr{
 }
 
 .container{
-  width: 96vw;
-  height: 83vh;
+  width: 96%;
+  height: 83%;
   margin-top: 2%;
   display: flex;
   align-items: center;
 }
 
 @media only screen and (max-width: 900px) {
-  #navBarContainer{
-    width: 100vw;
-  }
   .desktopNavBar{
     display: none;
   }
@@ -303,10 +299,6 @@ hr{
   }
   #mobileNavBar{
     display: unset;
-  }
-
-  .container{
-    min-height: 120vh;
   }
 
 }
