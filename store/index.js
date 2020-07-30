@@ -4,6 +4,7 @@ import moment from 'moment';
 moment.locale('tr');
 
 export const state = () => ({
+  isUserWorker: undefined,
   totalCompanies: 0,
   totalJobs: 0,
   totalTodo: 0,

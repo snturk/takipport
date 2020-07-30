@@ -1,15 +1,26 @@
 <template>
   <div id="company">
     <div id="companyHeader">
-      <div id="assignedUser" style="opacity: 0">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <div id="assignedUser">
+        <svg v-show="!isUserWorker" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z"/>
           <circle cx="9" cy="7" r="4" />
           <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
           <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
         </svg>
-        <div id="assignedUserName"></div>
+        <div v-show="!isUserWorker" id="assignedUserName" v-if="!selectMode">{{owner}}</div>
+        <select v-show="!isUserWorker" @change="selectMode = false; changeOwner();" v-model="selectedOwner" v-else>
+          <option value="" disabled selected>çalışan seç</option>
+          <option :value="currentUserName">{{currentUserName}}</option>
+          <option v-for="worker in workerList" :key="worker.workerCode" :value="worker.fullName">{{worker.fullName}}</option>
+        </select>
+        <svg v-show="!isUserWorker" @click="selectMode = !selectMode" id="changeOwnerBtn" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="20" height="20" viewBox="0 0 24 24" stroke-width="2.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+            <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+            <line x1="16" y1="5" x2="19" y2="8" />
+        </svg>
       </div>
       <div id="companyButtonsContainer">
         <div class="companyButton" id="resetButton">
@@ -20,7 +31,7 @@
           </svg>
         </div>
 
-        <div @click="toggleDisabled()" v-if="!disabled" class="companyButton">
+        <div @click="toggleDisabled()" v-if="!disabled && !isUserWorker" class="companyButton">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock-open" width="28" height="28" viewBox="0 0 24 24" stroke-width="1" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"/>
             <rect x="5" y="11" width="14" height="10" rx="2" />
@@ -29,7 +40,7 @@
           </svg>
         </div>
 
-        <div @click="toggleDisabled()" v-if="disabled" class="companyButton">
+        <div @click="toggleDisabled()" v-if="disabled && !isUserWorker" class="companyButton">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock" width="28" height="28" viewBox="0 0 24 24" stroke-width="1" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"/>
             <rect x="5" y="11" width="14" height="10" rx="2" />
@@ -38,7 +49,7 @@
           </svg>
         </div>
 
-        <div class="companyButton">
+        <div v-if="!isUserWorker" class="companyButton">
           <svg @click="deleteCompany" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1" stroke="#F44336" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"/>
             <line x1="4" y1="7" x2="20" y2="7" />
@@ -60,7 +71,7 @@
     <div id="companyPropsContainer" :class="{'disabledText': disabled}">
       <div class="prop" v-for="prop in propsData" :key="prop.name">
         <div id="propName">{{prop.name}}: </div>
-        <div id="propValue" v-if="!disabled" :style="{color: prop.colorCode}" v-on:click="updateProp(prop.originalName)">{{prop.value}} <div v-if="prop.originalValue == 2"></div> </div>
+        <div id="propValue" v-if="!disabled" :style="{color: prop.colorCode}" v-on:click="updateProp(prop.originalName)">{{prop.value}} <div v-if="prop.originalValue == 2"></div></div>
       </div>
       <h2>Ekler</h2>
       <div id="companyAddsContainer" :class="{'disabledText': disabled}">
@@ -105,8 +116,12 @@ export default {
  data() {
    return {
      propsData: [],
-     props: [],
+     workerList: [],
      disabled: false,
+     owner: '',
+     selectedOwner: '',
+     isUserWorker: undefined,
+     selectMode: false,
      valTypes: {
        condZero: 0,
        condOne: 0,
@@ -114,24 +129,44 @@ export default {
      },
      additionName: '',
      additions:[],
-     user: (firebase.auth().currentUser.email).replace('.', '')
    }
  },
  async mounted() {
-   await this.getProps();
-   await this.getVarProps();
-   await this.getValueTypes();
-   if(this.addition){
-     this.additions = Object.keys(this.addition);
-   }
+   if(this.$store.state.isUserWorker){
+     this.isUserWorker = true;
+    }else{
+      this.isUserWorker = false;
+    }
+
+    await this.getWorkers();
+    await this.getProps();
+    await this.getVarProps();
+    await this.getValueTypes();
+    this.currentUserName = firebase.auth().currentUser.displayName;
+    if(this.addition){
+      this.additions = Object.keys(this.addition);
+    }
  },
  methods: {
+   async getWorkers(){
+      var userEmail = await firebase.auth().currentUser.email.replace('.', '');
+      await firebase.database().ref('/users/' + userEmail + '/workers/').on('value', (snapshot) => {
+        if (snapshot.exists()) {
+          this.workerList = snapshot.val();
+        }
+      })
+    },
+    async changeOwner(){
+      await firebase.database().ref('/users/' + (firebase.auth().currentUser.email).replace('.', '') + "/companies/" + this.id + '/owner').set(this.selectedOwner);
+    },
    async getProps(){
-     await firebase.database().ref('/users/' + (firebase.auth().currentUser.email).replace('.', '') + "/companies/" + this.id).on('value', (snapshot) => {
+     
+     await firebase.database().ref(await this.getRefURL()).on('value', (snapshot) => {
        if(snapshot.exists()){
           var data = snapshot.val();
           this.props = data.props;
           this.disabled = data.disabled;
+          this.owner = data.owner;
           this.getVarProps();
           this.getValueTypes();
        }
@@ -339,19 +374,36 @@ export default {
        this.propsData.push(data);
      }
    },
+   async getRefURL(){
+     var employerEmail;
+      var refURL;
+      if(this.isUserWorker){
+        await firebase.database().ref("/users/workers/" + await firebase.auth().currentUser.email.replace('.', '') + "/employer").once('value', (snapshot)=>{
+          if(snapshot.exists()){
+            employerEmail = snapshot.val().replace('.', '');
+          }
+        });
+        refURL = "/users/" + employerEmail + "/companies/" + this.id;
+      }else{
+        refURL = "/users/" + await firebase.auth().currentUser.email.replace('.', '') + "/companies/" + this.id;
+      }
+      console.log(refURL);
+      return refURL;
+   },
    async updateProp(propName){
+     
      var currentVal = this.props[propName];
      if(propName != 'sgkBildirgesi' && propName != 'ucretBordrosu'){
        if(currentVal == 0 || currentVal == 1){
-         await firebase.database().ref('/users/' + this.user + '/companies/' + this.id + '/props/' + propName).set(currentVal+1);
+         await firebase.database().ref(await this.getRefURL() + '/props/' + propName).set(currentVal+1);
        }else if(currentVal == 2){
-         await firebase.database().ref('/users/' + this.user + '/companies/' + this.id + '/props/' + propName).set(0);
+         await firebase.database().ref(await this.getRefURL() + '/props/' + propName).set(0);
        }
      }else{
        if(currentVal == 0){
-         await firebase.database().ref('/users/' + this.user + '/companies/' + this.id + '/props/' + propName).set(2);
+         await firebase.database().ref(await this.getRefURL() + '/props/' + propName).set(2);
        }else{
-         await firebase.database().ref('/users/' + this.user + '/companies/' + this.id + '/props/' + propName).set(0);
+         await firebase.database().ref(await this.getRefURL() + '/props/' + propName).set(0);
        }
      }
     
@@ -374,12 +426,12 @@ export default {
    },
    async deleteCompany(){
      if(confirm(this.name + " adlı firmayı silmek istediğinize emin misiniz?")){
-     await firebase.database().ref('/users/' + this.user + '/companies/' + this.id).remove();
+     await firebase.database().ref(await this.getRefURL()).remove();
      }
    },
    async addAddition(name){
       if(name.toString().replace(/\s/g,'')){
-        await firebase.database().ref('/users/' + this.user + '/companies/' + this.id + "/addition/").push({name: name, value: false});
+        await firebase.database().ref(await this.getRefURL() + "/addition/").push({name: name, value: false});
         this.additions = [];
       }else{
         alert("Ek iş adı boş olamaz.")
@@ -391,24 +443,24 @@ export default {
     this.additionName = '';
    },
    async changeChecked(name, value, id){
-     await firebase.database().ref('/users/' + this.user + '/companies/' + this.id + "/addition/" + id).update({name: name, value: !value});
+     await firebase.database().ref(await this.getRefURL() + "/addition/" + id).update({name: name, value: !value});
    },
    async deleteAdd(id){
      this.additions = [];
-     await firebase.database().ref('/users/' + this.user + '/companies/' + this.id + "/addition/" + id).remove();
+     await firebase.database().ref(await this.getRefURL() + "/addition/" + id).remove();
      if(this.addition){
        this.additions = Object.keys(this.addition);
      }
    },
    async resetProps(){
      if(confirm(this.name + " adlı firmanın tüm işleri sıfırlanacak. Bu işlemi gerçekleştirmek istiyor musunuz?")){
-       await firebase.database().ref('/users/' + (firebase.auth().currentUser.email).replace('.', '') + "/companies/" + this.id + "/props").update(this.$parent.company.props);
+       await firebase.database().ref(await this.getRefURL() + "/props").update(this.$parent.company.props);
        await this.getVarProps();
        await this.getValueTypes();
      }
   },
   async toggleDisabled(){
-    await firebase.database().ref('/users/' + (firebase.auth().currentUser.email).replace('.', '') + "/companies/" + this.id + '/disabled').set(!this.disabled);
+    await firebase.database().ref(await this.getRefURL() + '/disabled').set(!this.disabled);
   }
  },
 }
@@ -444,10 +496,11 @@ export default {
   justify-content: space-between;
 }
 
+
 #companyButtonsContainer{
   display: flex;
   flex-direction: row;
-  width: 23%;
+  max-width: 23%;
   justify-content: space-around;
   align-items: center;
   align-self: flex-end;
@@ -466,13 +519,23 @@ svg:active{
   align-self: flex-start;
   align-items: center;
   font-size: 15px;
-  width: 35%;
+  min-width: 35%;
   font-family: 'Roboto', serif;
   font-weight: 100;
   color: #474f6c;
 }
+
+select{
+  width: fit-content;
+}
+
+#changeOwnerBtn{
+  cursor: pointer;
+  transform: scale(0.8);
+}
+
 #assignedUser div{
-  margin-left: 6%;
+  margin-left: 3%;
 }
 
 #resetButton{

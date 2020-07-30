@@ -114,7 +114,6 @@
         </div>
       </div>
     </div>
-    <hr id="seperator">
     <nuxt />
   </div>
 </template>
@@ -191,8 +190,8 @@ a{
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -203,7 +202,7 @@ a{
   top: 0;
   left: 0;
   width: 100%;
-  height: 10%;
+  min-height: 10vh;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -211,12 +210,13 @@ a{
   color: #f4f4f4;
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-top: 1%;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
   color: #474f6c;
 }
 #seperator{
   width: 90%;
-  height: 1.2px;
+  height: 2px;
   border: none;
   margin: 0 auto;
   background-color: #474f6c;
@@ -238,13 +238,12 @@ hr{
 }
 
 #navBarTitle span{
-  font-size: 17px;
-  margin-left: 4px;
+  font-size: 14px;
 }
 #navBarTitle span svg{
   width: 16px;
   height: 16px;
-  transform: scale(1);
+  transform: scale(0.8);
 }
 
 .navBar{
@@ -278,14 +277,17 @@ hr{
 }
 
 .container{
-  width: 96%;
-  height: 83%;
+  width: 99vw;
   margin-top: 2%;
   display: flex;
   align-items: center;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width:700px) {
+  #navBarTitle{
+    margin-left: 1%;
+  }
+  
   .desktopNavBar{
     display: none;
   }

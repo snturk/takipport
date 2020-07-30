@@ -12,7 +12,7 @@
         {{dateFull}}
       </div>
     <div id="companyOpsContainer">
-      <div id="companyInputContainer">
+      <div id="companyInputContainer" v-if="!this.$store.state.isUserWorker">
         <h1>Firma Ekle</h1>
         <div>
         <input type="text" placeholder="eklenecek firma adı" autocomplete="off" id="companyNameInput" @keyup.enter="pushCompany(company.name)" v-model="company.name">
@@ -40,15 +40,8 @@
       <div id="alphabetSort" v-bind:class="{'activeSort': sort3Style}" @click="sortArr(3)">Alfabetik</div>
     </div>
     <hr>
-    <div v-if="!loaded" class="sk-chase">
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-    </div>
     <div v-if="loaded" id="companyContainer">
+      <div v-if="this.$store.state.isUserWorker && !datas.length">İşvereniniz henüz size firma atamadı.</div>
       <company v-if="(filteredData.length)" v-for="data in filteredData" 
       :key="data.name"
       :id="data.id" 
@@ -72,10 +65,9 @@
 
 <script>
 import moment from 'moment'
-import * as firebase from 'firebase/app'
+import firebase from 'firebase/app'
 import 'firebase/auth'
 import company from '../components/company.vue'
-import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -94,6 +86,7 @@ export default {
       sort3Style: false,
       company: {
         name: '',
+        owner: '',
         disabled: false,
         props: {
           aylikMuhasebeEvrak: 0,
@@ -111,9 +104,8 @@ export default {
   },
   methods: {
     async pushCompany(name){
-      if(name.toString().replace(/\s/g,'')){
+      if(name.toString().replace(/\s/g,'') && !this.$store.state.isUserWorker){
         await firebase.database().ref('/users/' + (firebase.auth().currentUser.email).replace('.', '') + '/companies/').push(this.company);
-        //this.getCompanies();
         this.sortArr(this.currentSorting);
         this.company.name = '';
       }else{
@@ -121,7 +113,21 @@ export default {
       }
     },
     async getCompanies(){
-      await firebase.database().ref("/users/" + (firebase.auth().currentUser.email).replace('.', '') + "/companies").on('value', (snapshot) => {
+      var isUserWorker = this.$store.state.isUserWorker;
+      var workerName = await firebase.auth().currentUser.displayName;
+      var employerEmail;
+      var refURL;
+      if(isUserWorker){
+        await firebase.database().ref("/users/workers/" + (firebase.auth().currentUser.email).replace('.', '') + "/employer").once('value', (snapshot)=>{
+          if(snapshot.exists()){
+            employerEmail = snapshot.val().replace('.', '');
+          }
+        });
+        refURL = "/users/" + employerEmail + "/companies";
+      }else{
+        refURL = "/users/" + (firebase.auth().currentUser.email).replace('.', '') + "/companies"
+      }
+      await firebase.database().ref(refURL).on('value', (snapshot) => {
         if(snapshot.exists()){
           var data = snapshot.val();
           var keys = Object.keys(data);
@@ -137,11 +143,13 @@ export default {
             for (const key in resData.props) {
               generalCond += resData.props[key];
             }
+            if(isUserWorker && (resData.owner == workerName)){
 
-            if (resData.addition) {
-              this.datas.push({
+              if (resData.addition) {
+                this.datas.push({
                   id: id,
                   name: resData.name,
+                  owner: resData.owner,
                   props: resData.props,
                   addition: resData.addition,
                   generalCond: generalCond
@@ -150,10 +158,32 @@ export default {
                 this.datas.push({
                   id: id,
                   name: resData.name,
+                  owner: resData.owner,
                   props: resData.props,
                   generalCond: generalCond
                 });
               } 
+            }else if(!isUserWorker){
+              
+              if (resData.addition) {
+                this.datas.push({
+                  id: id,
+                  name: resData.name,
+                  owner: resData.owner,
+                  props: resData.props,
+                  addition: resData.addition,
+                  generalCond: generalCond
+                });
+              }else{
+                this.datas.push({
+                  id: id,
+                  name: resData.name,
+                  owner: resData.owner,
+                  props: resData.props,
+                  generalCond: generalCond
+                });
+              } 
+            }
             this.$store.state.totalJobs += 9;
           }
           this.$store.state.totalCompanies = this.datas.length;
@@ -210,17 +240,25 @@ export default {
       }
     },
   },
-  async mounted() {
-    this.currentUser = await firebase.auth().currentUser;
+  async created() {
+    this.currentUser = firebase.auth().currentUser;
     if(!this.currentUser){
       this.$router.replace('/');
     }
+    this.company.owner = await firebase.auth().currentUser.displayName;
+    await firebase.database().ref('/users/workers/' + firebase.auth().currentUser.email.replace('.', '')).once('value', (snapshot) => {
+      if(snapshot.exists()){
+        this.$store.state.isUserWorker = true;
+      }else{
+        this.$store.state.isUserWorker = false;
+      }
+    });
     this.getCompanies();
-    //console.log(Math.random().toString(36).substr(2, 9));
   },
-  asyncData({req, redirect}) {
+  async asyncData({req, redirect}) {
     if(process.server){
-
+      await firebase.auth().currentUser;
+      console.log(firebase.auth().currentUser);
     } else {
       let user = firebase.auth().currentUser
       if(!user){
@@ -252,6 +290,7 @@ components: {
   font-family: 'Roboto', serif;
   color: #474f6c;
   transition-duration: 180ms;
+  cursor: default;
 }
 
 #date svg{
@@ -357,62 +396,6 @@ hr{
   height: 80%;
   margin: 0 auto;
   margin-bottom: 30px;
-}
-
-.sk-chase {
-  align-self: center;
-  width: 40px;
-  height: 40px;
-  position: relative;
-  animation: sk-chase 2.5s infinite linear both;
-}
-
-.sk-chase-dot {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0; 
-  animation: sk-chase-dot 2.0s infinite ease-in-out both; 
-}
-
-.sk-chase-dot:before {
-  content: '';
-  display: block;
-  width: 25%;
-  height: 25%;
-  background-color: hsl(245, 30%, 35%);
-  border-radius: 100%;
-  animation: sk-chase-dot-before 2.0s infinite ease-in-out both; 
-}
-
-.sk-chase-dot:nth-child(1) { animation-delay: -1.1s; }
-.sk-chase-dot:nth-child(2) { animation-delay: -1.0s; }
-.sk-chase-dot:nth-child(3) { animation-delay: -0.9s; }
-.sk-chase-dot:nth-child(4) { animation-delay: -0.8s; }
-.sk-chase-dot:nth-child(5) { animation-delay: -0.7s; }
-.sk-chase-dot:nth-child(6) { animation-delay: -0.6s; }
-.sk-chase-dot:nth-child(1):before { animation-delay: -1.1s; }
-.sk-chase-dot:nth-child(2):before { animation-delay: -1.0s; }
-.sk-chase-dot:nth-child(3):before { animation-delay: -0.9s; }
-.sk-chase-dot:nth-child(4):before { animation-delay: -0.8s; }
-.sk-chase-dot:nth-child(5):before { animation-delay: -0.7s; }
-.sk-chase-dot:nth-child(6):before { animation-delay: -0.6s; }
-
-@keyframes sk-chase {
-  100% { transform: rotate(360deg); } 
-}
-
-@keyframes sk-chase-dot {
-  80%, 100% { transform: rotate(360deg); } 
-}
-
-@keyframes sk-chase-dot-before {
-  50% {
-    transform: scale(0.4); 
-  } 100%, 0% {
-    transform: scale(1.0); 
-  } 
 }
 
 

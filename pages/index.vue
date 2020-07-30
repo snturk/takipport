@@ -40,6 +40,9 @@
           <input type="text" placeholder="e-posta" v-model="email">
           <input type="password" placeholder="şifre" v-model="password">
           <input type="password" placeholder="şifre tekrar" v-model="passwordAgain">
+          <div id="workerCheckboxContainer">
+          Çalışan Hesabı: <input type="checkbox" id="workerInput" v-model="isUserWorker">
+          </div>
           <div id="buttonContainer">
             <button @click="signUp">Kayıt Ol</button>
           </div>
@@ -61,6 +64,12 @@
       <p>
         TAKİPPORT, firmalarınızın beyanname, ekstre, bordro gibi işlerinin güncel durumunu girip takip etmenizi kolaylaştırır.
         Bir iş süreci takip çözümüdür.
+      </p>
+
+      <div class="aboutSubtitle">Çalışanlarınızı Ekleyin</div>
+      <p>
+        TAKİPPORT'u kullanırken çalışanlarınıza da firma  atayabilir, 
+        atadığınız firmaların işlerinin hangi durumda olduğunu anlık olarak takip edebilirsiniz.
       </p>
     
     </div>
@@ -108,7 +117,7 @@
 
     </div>
 
-    <div class="indexBottomElContainer">
+    <div class="indexBottomElContainer" id="contactContainer">
       <div class="indexBottomTitle">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F4f4f4" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z"/>
@@ -117,7 +126,7 @@
         </svg>
         İletişim
       </div>
-      <div id="contactContainer">
+      <div id="contactLinkContainer">
         <a id="contactLink" target="_blank" href="mailto:takipportdestek@gmail.com">Destek için buraya tıklayarak e-posta atın.</a>
       </div>
     </div>
@@ -126,7 +135,7 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import * as firebase from 'firebase/app'
 export default {
   data() {
     return {
@@ -135,6 +144,7 @@ export default {
       email: '',
       password: '',
       passwordAgain: '',
+      isUserWorker: false,
       signUpPage: false,
       messageArr: [
         'Kolay', 'Etkili', 'Profesyonel'
@@ -152,6 +162,7 @@ export default {
           firebase.auth().signOut();
         }
       }).catch(err=> {
+        console.log(err.message);
         switch (err) {
           case "auth/invalid-email":
             alert("E-posta geçersiz.")
@@ -173,10 +184,15 @@ export default {
     async signUp(){
       if(this.password == this.passwordAgain){
         await firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(user => {
+          var fullName = this.firstName + ' ' + this.lastName;
           firebase.auth().currentUser.sendEmailVerification();
           firebase.database().ref('/users/' + this.email.replace('.', '')).remove();
+          if(this.isUserWorker){
+            var workerCode = Math.random().toString(36).substr(2, 9);
+            firebase.database().ref('/users/workers/' + this.email.replace('.', '') + '/').set({workerCode: workerCode, fullName: fullName});
+          }
           firebase.auth().currentUser.updateProfile({
-          displayName: this.firstName + ' ' + this.lastName
+          displayName: fullName
         });
           alert('E-posta adresinize bir doğrulama bağlantısı gönderildi. Giriş yapmadan önce bağlantıya tıklayıp e-postanızı onaylayın.');
           this.signUpPage = false;
@@ -213,7 +229,6 @@ export default {
 #indexContainer{
   width: 100%;
   min-height: 90vh;
-  height: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
@@ -342,6 +357,14 @@ export default {
   background-color: hsl(245, 64%, 33%);
 }
 
+#workerCheckboxContainer{
+  color: #f4f4f4;
+}
+#workerCheckboxContainer input{
+  width: 20px;
+  height: 20px;
+}
+
 #signUpFormContainer .form #buttonContainer{
   width: 100%;
   height: 10%;
@@ -355,8 +378,8 @@ export default {
 }
 
 .indexBottomElContainer{
-  width: 87%;
-  height: 450px;
+  width: 80%;
+  height: unset;
   margin: 0 auto;
   margin-top: 10%;
   margin-bottom: 10%;
@@ -397,8 +420,12 @@ export default {
   margin-top: 4%;
 }
 
+#pricesContainer{
+  min-height: fit-content;
+}
+
 #subOptionContainer{
-  height: 70%;
+  height: unset;
   width: 95%;
   display: flex;
   flex-direction: row;
@@ -411,7 +438,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: fit-content;
   width: 25%;
   padding: 2%;
   font-family: 'Playfair Display', serif;
@@ -423,7 +450,7 @@ export default {
 
 #subOptionName{
   font-size: 3vh;
-  margin-bottom: 2%;
+  margin-bottom: 7vh;
 }
 
 #subOptionFeatureContainer{
@@ -433,17 +460,25 @@ export default {
   height: 80%;
 }
 
+#subOptionFeatureContainer *{
+  margin-bottom: 6vh;
+}
+
 #subObtionPrice{
   font-family: 'Roboto', serif;
   font-weight: 500;
+  margin-bottom: 1vh;
 }
 
 #bronze{background-color: burlywood;}
 #silver{background-color: silver;}
 #gold{background-color: gold;}
 
+#contactContainer{
+    margin-bottom: 5vh;
+}
 
-#contactContainer a{
+#contactLinkContainer a{
   color: #f4f4f4;
   text-decoration: underline;
   transition-duration: 180ms;
@@ -479,21 +514,28 @@ export default {
   #signUpFormContainer .form{
     width: 70vw;
   }
-
-  #aboutContainer{
-    width: 95%;
-  }
   .indexBottomElContainer{
-    width: 95%;
+    width: 72%;
+    height: fit-content;
   }
   .indexBottomTitle {
     font-size: 34px;
   }
   .aboutSubtitle{
     font-size: 24px;
+    width: 95%;
+    text-align: left;
   }
   #aboutContainer p{
     font-size: 17px;
+    width: 95%;
+    text-align: left;
+  }
+
+  #subOptionContainer{
+    width: 98%;
+    padding: 0;
+    justify-content: space-between;
   }
 }
 
