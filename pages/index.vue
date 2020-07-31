@@ -50,6 +50,8 @@
       </div>
     </div>
 
+    <img src="business.png" alt="görsel" srcset="">
+
     <div class="indexBottomElContainer" id="aboutContainer">
       <div class="indexBottomTitle">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-square" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="#F4f4f4" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -73,6 +75,8 @@
       </p>
     
     </div>
+
+    <img src="payment.png" alt="görsel" srcset="">
 
     <div class="indexBottomElContainer" id="pricesContainer">
       <div class="indexBottomTitle">
@@ -116,6 +120,8 @@
       </div>
 
     </div>
+
+    <img src="contact.png" alt="görsel" srcset="">
 
     <div class="indexBottomElContainer" id="contactContainer">
       <div class="indexBottomTitle">
@@ -225,6 +231,11 @@ export default {
 .container{
   flex-direction: column;
   padding-bottom: 7vh;
+}
+
+img{
+  width: 80%;
+  height: auto;
 }
 
 #indexContainer{
@@ -494,6 +505,13 @@ export default {
   .container{
     flex-direction: column;
   }
+
+  img{
+    width: 100%;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+  }
+
   #indexContainer{
     flex-direction: column;
     justify-content: space-around;
