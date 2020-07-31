@@ -1,7 +1,7 @@
 {
-  "name": "smmm-takip",
+  "name": "takipport",
   "version": "1.0.0",
-  "description": "SMMM Takip",
+  "description": "takipport",
   "author": "Muratcan Şentürk",
   "private": true,
   "scripts": {
@@ -11,8 +11,8 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "firebase": "^7.16.1",
-    "nuxt": "^2.0.0",
+    "firebase": "^7.17.1",
+    "nuxt": "^2.14.0",
     "nuxt-moment": "^1.0.5",
     "vue-typer": "^1.2.0"
   },

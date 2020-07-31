@@ -535,7 +535,13 @@ export default {
   #subOptionContainer{
     width: 98%;
     padding: 0;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .subscriptionOption{
+    width: 100%;
+    margin-bottom: 4vh;
   }
 }
 
