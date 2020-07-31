@@ -224,6 +224,7 @@ export default {
 <style>
 .container{
   flex-direction: column;
+  padding-bottom: 7vh;
 }
 
 #indexContainer{
