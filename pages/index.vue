@@ -136,7 +136,7 @@
         <a id="contactLink" target="_blank" href="mailto:takipportdestek@gmail.com">Destek için buraya tıklayarak e-posta atın.</a>
       </div>
     </div>
-    
+    <div id="copyright">TAKİPPORT 2020©</div>
   </div>
 </template>
 
@@ -231,6 +231,12 @@ export default {
 .container{
   flex-direction: column;
   padding-bottom: 7vh;
+}
+
+#copyright{
+  font-size: 14px;
+  margin-bottom: 4vh;
+  font-family: 'Roboto', serif;
 }
 
 img{

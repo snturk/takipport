@@ -115,7 +115,6 @@
       </div>
     </div>
     <nuxt />
-    <div id="copyright">TAKİPPORT 2020©</div>
   </div>
 </template>
 
@@ -169,12 +168,6 @@ body{
   background-size: cover;
   font-family: 'Playfair Display', serif;
   font-weight: 400;
-}
-
-#copyright{
-  font-size: 14px;
-  margin-bottom: 4vh;
-  font-family: 'Roboto', serif;
 }
 
 .disabledText{
