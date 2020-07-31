@@ -164,7 +164,7 @@ body{
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #fafafa;
+  background-color: #fff;
   background-size: cover;
   font-family: 'Playfair Display', serif;
   font-weight: 400;
