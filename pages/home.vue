@@ -278,6 +278,7 @@ components: {
   align-items: unset;
   flex-direction: column;
   justify-content: flex-start;
+  width: 100%;
 }
 
 #date{
@@ -353,6 +354,7 @@ components: {
   margin: 0 auto;
   font-size: 24px;
   margin-top: 0;
+  margin-bottom: 15px;
 }
 #sortContainer{
   display: flex;
@@ -360,9 +362,9 @@ components: {
   align-items: center;
   justify-content: space-around;
   width: 85%;
-  height: 30%;
   margin: 0 auto;
   margin-top: 1%;
+  min-height: 100px;
 }
 
 .activeSort{
@@ -380,7 +382,7 @@ components: {
 }
 
 hr{
-  height: 1.3px;
+  height: 1px;
   width: 80%;
   background-color: hsl(245, 30%, 35%);
   margin-top: 1%;

@@ -286,7 +286,11 @@ img{
   padding: 20px;
   box-shadow: 0 19px 30px rgba(0,0,0,0.30), 0 15px 19px rgba(0, 0, 0, 0.32);
 }
-#authContainer h5{color: #f4f4f4;}
+#authContainer h5{
+  font-size: 32px;
+  font-weight: bold;
+  color: #f4f4f4;
+}
 
 #authContainer .form{
   display: flex;

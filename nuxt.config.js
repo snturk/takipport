@@ -12,6 +12,8 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
+      {rel:"stylesheet", type:"text/css", href:"https://s3.eu-central-1.amazonaws.com/shopier/static/css/shopiermodal.min.css"},
+      {rel:"stylesheet", type:"text/css", href:"https://s3.eu-central-1.amazonaws.com/shopier/static/font-awesome/css/font-awesome.min.css"},
       { href: 'icon.png', rel: 'icon'},
       { href: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;800&family=Roboto:wght@500&display=swap', rel: 'stylesheet'}   
     ]
@@ -47,11 +49,12 @@ export default {
   /*
   ** Build configuration
   */
-  build: {
-    /*
-    ** You can extend webpack config here
-    */
-    extend (config, ctx) {
-    }
+ build: {
+  extend (config, { isDev, isClient }) {
+
+     
+
+     // ....
   }
+}
 }

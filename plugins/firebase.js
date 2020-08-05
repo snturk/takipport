@@ -1,6 +1,5 @@
 import * as firebase from 'firebase/app'
 
-
 var firebaseConfig = {
   apiKey: "AIzaSyC-gk1IsHoGxJbjSqu3R4OJEf34lm4_Vs0",
   authDomain: "smmm-takip.firebaseapp.com",

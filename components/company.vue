@@ -468,8 +468,7 @@ export default {
 
 <style>
 #company{
-  width: 40%;
-  height: 40%;
+  width: 30%;
   min-height: 440px;
   display: flex;
   flex-direction: column;
@@ -483,7 +482,7 @@ export default {
 
 
 #companyName{
-  font-size: 36px;
+  font-size: 28px;
   margin-top: 2%;
   transition-duration: 180ms;
 }
@@ -491,7 +490,7 @@ export default {
 #companyHeader{
   display: flex;
   flex-direction: row;
-  width: 98%;
+  width: 99%;
   margin: 0 auto;
   justify-content: space-between;
 }
@@ -518,7 +517,7 @@ svg:active{
   flex-direction: row;
   align-self: flex-start;
   align-items: center;
-  font-size: 15px;
+  font-size: 14px;
   min-width: 35%;
   font-family: 'Roboto', serif;
   font-weight: 100;
@@ -580,14 +579,18 @@ select{
   border-radius: 7px;
   margin-top: 3%;
   overflow: auto;
-  height: 300px;
+  height: 70%;
   transition-duration: 180ms;
+}
+
+#companyPropsContainer:hover{
+  overflow-y: visible;
 }
 
 .prop{
   display: flex;
   flex-direction: row;
-  margin-top: 3%;
+  margin-top: 2.2%;
   transition-duration: 180ms;
 }
 
