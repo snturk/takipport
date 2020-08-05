@@ -15,9 +15,9 @@ if(!firebase.apps.length){
   firebase.initializeApp(firebaseConfig);
 }
 
-export default ({redirect}) => {
-  firebase.auth().onAuthStateChanged(user=>{
-    if(user.emailVerified){
+export default async ({redirect}) => {
+  await firebase.auth().onAuthStateChanged(user=>{
+    if(user){
       redirect('/home');
     }else{
       redirect('/');

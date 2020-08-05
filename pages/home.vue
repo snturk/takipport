@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="currentUser" class="container">
       <div id="date">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z"/>
@@ -240,8 +240,8 @@ export default {
       }
     },
   },
-  async created() {
-    this.currentUser = firebase.auth().currentUser;
+  async mounted() {
+    this.currentUser = await firebase.auth().currentUser;
     if(!this.currentUser){
       this.$router.replace('/');
     }
