@@ -23,6 +23,7 @@
         <div id="buttonContainer">
           <button @click="signIn">Giriş</button> <button @click="signUpPage = true">Kayıt Ol</button>
         </div>
+        <div id="resPassword" @click="resPassword()">şifremi unuttum</div>
         </div>
       </div>
       <div v-if="signUpPage" id="signUpFormContainer">
@@ -223,6 +224,13 @@ export default {
         alert('Şifreler uyuşmuyor.');
       }
     },
+    async resPassword(){
+      firebase.auth().sendPasswordResetEmail(this.email).then(function() {
+        alert("E-posta adresinize şifre sıfırlama bağlantısı gönderildi.");
+        }).catch(function(error) {
+          alert("Bir hata oluştu, e-posta alanına e-postanızı doğru yazdığınızdan emin olun veya takipportdestek@gmail.com'a e-posta ile ulaşın. Hata kodu: " + error.message + " - " + error.code);
+      });
+    }
   },
 }
 </script>
@@ -303,6 +311,17 @@ img{
   color: #bcbcc3;
 }
 
+#resPassword{
+    font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    font-family: 'Roboto';
+    cursor: pointer;
+}
+#resPassword:hover{
+  text-decoration: underline;
+}
+
 .form *{
   margin-top: 12px;
   border-radius: 7px;
@@ -328,7 +347,7 @@ img{
 
 .form #buttonContainer button{
   padding: 6%;
-  font-size: 16px;
+  font-size: 17px;
   width: 42%;
   cursor: pointer;
   background-color: hsl(245, 30%, 45%);
@@ -501,6 +520,7 @@ img{
 }
 
 #contactLinkContainer a{
+  font-size: 17px;
   color: #f4f4f4;
   text-decoration: underline;
   transition-duration: 180ms;
