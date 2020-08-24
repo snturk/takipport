@@ -1,18 +1,7 @@
 <template>
   <div id="mainContainer">
     <div id="navBarContainer">
-      <div id="navBarTitle">TAKİPPORT
-        <span>
-          beta
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flask" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#474f6c" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z"/>
-            <line x1="9" y1="3" x2="15" y2="3" />
-            <line x1="10" y1="9" x2="14" y2="9" />
-            <path d="M10 3v6l-4 11a.7 .7 0 0 0 .5 1h11a.7 .7 0 0 0 .5 -1l-4 -11v-6" />
-          </svg>
-        </span>
-      
-      </div>
+      <div id="navBarTitle">TAKİPPORT</div>
       <div class="navBar desktopNavBar loggedInNavBar" v-if="isLogged">
         <nuxt-link to="/home" class="navBarLink">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home-2" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#505b81" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -191,7 +180,6 @@ a{
   top: 0;
   left: 0;
   height: 100vh;
-  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -233,17 +221,8 @@ hr{
 
 
 #navBarTitle{
-  margin-left: 5%;
+  margin-left: 2%;
   font-size: 32px;
-}
-
-#navBarTitle span{
-  font-size: 14px;
-}
-#navBarTitle span svg{
-  width: 16px;
-  height: 16px;
-  transform: scale(0.8);
 }
 
 .navBar{
