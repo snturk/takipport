@@ -180,6 +180,7 @@ a{
   top: 0;
   left: 0;
   height: 100vh;
+  min-width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
